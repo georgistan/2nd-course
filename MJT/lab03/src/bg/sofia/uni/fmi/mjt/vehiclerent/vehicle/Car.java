@@ -22,20 +22,20 @@ public final class Car extends MotorVehicle {
         hours = hours - days * HOURS_IN_A_DAY;
 
         double fuelCost = 0;
-        double seatCost = numberOfSeats * PRICE_PER_SEAT;
+        double seatsCost = numberOfSeats * PRICE_PER_SEAT;
 
         if (weeks > 0) {
             fuelCost = (weeks * DAYS_IN_A_WEEK + days) * fuelType.getTax();
 
-            return (weeks * pricePerWeek) + (days * pricePerDay) + (hours * pricePerHour) + fuelCost + seatCost + renter.ageGroup().getTax();
+            return (weeks * pricePerWeek) + (days * pricePerDay) + (hours * pricePerHour) + fuelCost + seatsCost + renter.ageGroup().getTax();
         } else if (days > 0) {
             fuelCost = days * fuelType.getTax();
 
-            return (days * pricePerDay) + (hours * pricePerHour) + fuelCost + seatCost + renter.ageGroup().getTax();
+            return (days * pricePerDay) + (hours * pricePerHour) + fuelCost + seatsCost + renter.ageGroup().getTax();
         } else {
             fuelCost = fuelType.getTax();
 
-            return (hours * pricePerHour) + fuelCost + seatCost + renter.ageGroup().getTax();
+            return (hours * pricePerHour) + fuelCost + seatsCost + renter.ageGroup().getTax();
         }
     }
 }
