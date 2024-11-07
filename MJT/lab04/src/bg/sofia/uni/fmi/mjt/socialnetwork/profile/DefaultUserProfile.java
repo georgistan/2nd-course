@@ -81,7 +81,18 @@ public class DefaultUserProfile implements UserProfile {
 
     @Override
     public boolean unfriend(UserProfile userProfile) {
-        return friends.remove(userProfile);
+        if(userProfile == null) {
+            throw new IllegalArgumentException("User cannot be null.");
+        }
+
+        if(!friends.contains(userProfile)) {
+            return false;
+        }
+
+        friends.remove(userProfile);
+        userProfile.unfriend(this);
+
+        return true;
     }
 
     @Override
