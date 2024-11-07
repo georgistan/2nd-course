@@ -5,6 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DefaultUserProfile implements UserProfile {
+
+    // username uniqueness!!!
+    // what type of collections for interests and friends???
+
+
     private String username;
     private Set<Interest> interests;
     private Set<UserProfile> friends;
@@ -97,6 +102,10 @@ public class DefaultUserProfile implements UserProfile {
 
     @Override
     public boolean isFriend(UserProfile userProfile) {
+        if(userProfile == null) {
+            throw new IllegalArgumentException("User cannot be null.");
+        }
+
         return friends.contains(userProfile);
     }
 }

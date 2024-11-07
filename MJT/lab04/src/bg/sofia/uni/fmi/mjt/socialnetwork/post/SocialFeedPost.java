@@ -9,6 +9,8 @@ import java.util.Set;
 public class SocialFeedPost implements Post {
     private UserProfile author;
     private String content;
+    private LocalDateTime publishedOn;
+    private Set<ReactionType> reactions;
 
     public SocialFeedPost(UserProfile author, String content){
         this.author = author;
