@@ -3,9 +3,6 @@ package bg.sofia.uni.fmi.mjt.socialnetwork;
 import bg.sofia.uni.fmi.mjt.socialnetwork.profile.DefaultUserProfile;
 import bg.sofia.uni.fmi.mjt.socialnetwork.profile.Interest;
 
-import java.util.Collection;
-import java.util.Set;
-
 public class Main {
     public static void main(String[] args) {
         DefaultUserProfile user1 = new DefaultUserProfile("georgistan");

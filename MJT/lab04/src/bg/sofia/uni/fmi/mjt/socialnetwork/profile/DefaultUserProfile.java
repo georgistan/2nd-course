@@ -5,11 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DefaultUserProfile implements UserProfile {
-
-    // username uniqueness!!!
-    // what type of collections for interests and friends???
-
-
+    /**
+        username uniqueness!!!
+        what type of collections for interests and friends???
+     */
     private String username;
     private Set<Interest> interests;
     private Set<UserProfile> friends;
@@ -31,11 +30,11 @@ public class DefaultUserProfile implements UserProfile {
 
     @Override
     public boolean addInterest(Interest interest) {
-        if(interest == null) {
+        if (interest == null) {
             throw new IllegalArgumentException("Interest cannot be null");
         }
 
-        if(interests.contains(interest)) {
+        if (interests.contains(interest)) {
             return false;
         }
 
@@ -46,11 +45,11 @@ public class DefaultUserProfile implements UserProfile {
 
     @Override
     public boolean removeInterest(Interest interest) {
-        if(interest == null) {
+        if (interest == null) {
             throw new IllegalArgumentException("Interest cannot be null.");
         }
 
-        if(!interests.contains(interest)) {
+        if (!interests.contains(interest)) {
             return false;
         }
 
@@ -66,15 +65,15 @@ public class DefaultUserProfile implements UserProfile {
 
     @Override
     public boolean addFriend(UserProfile userProfile) {
-        if(userProfile == null) {
+        if (userProfile == null) {
             throw new IllegalArgumentException("User cannot be null.");
         }
 
-        if(userProfile == this) {
+        if (userProfile == this) {
             throw new IllegalArgumentException("User cannot add themselves as a friend.");
         }
 
-        if(userProfile.isFriend(this)) {
+        if (userProfile.isFriend(this)) {
             return false;
         }
 
@@ -86,11 +85,11 @@ public class DefaultUserProfile implements UserProfile {
 
     @Override
     public boolean unfriend(UserProfile userProfile) {
-        if(userProfile == null) {
+        if (userProfile == null) {
             throw new IllegalArgumentException("User cannot be null.");
         }
 
-        if(!friends.contains(userProfile)) {
+        if (!friends.contains(userProfile)) {
             return false;
         }
 
@@ -102,7 +101,7 @@ public class DefaultUserProfile implements UserProfile {
 
     @Override
     public boolean isFriend(UserProfile userProfile) {
-        if(userProfile == null) {
+        if (userProfile == null) {
             throw new IllegalArgumentException("User cannot be null.");
         }
 
