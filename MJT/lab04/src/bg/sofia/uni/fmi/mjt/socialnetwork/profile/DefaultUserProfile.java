@@ -2,13 +2,10 @@ package bg.sofia.uni.fmi.mjt.socialnetwork.profile;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-public class DefaultUserProfile implements UserProfile {
-    /**
-        username uniqueness!!!
-        what type of collections for interests and friends???
-     */
+public class DefaultUserProfile implements UserProfile, Comparable<UserProfile> {
     private String username;
     private Set<Interest> interests;
     private Set<UserProfile> friends;
@@ -21,6 +18,34 @@ public class DefaultUserProfile implements UserProfile {
 
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DefaultUserProfile that = (DefaultUserProfile) o;
+        return Objects.equals(username, that.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username);
+    }
+
+    @Override
+    public int compareTo(UserProfile o) {
+        if (this.username.equals(o.getUsername())) {
+            return 0;
+        }
+
+        if (this.friends.size() > o.getFriends().size()) {
+            return 1;
+        } else if (this.friends.size() < o.getFriends().size()) {
+            return -1;
+        }
+
+        return 1;
     }
 
     @Override
@@ -73,7 +98,7 @@ public class DefaultUserProfile implements UserProfile {
             throw new IllegalArgumentException("User cannot add themselves as a friend.");
         }
 
-        if (userProfile.isFriend(this)) {
+        if (this.isFriend(userProfile)) {
             return false;
         }
 
@@ -105,6 +130,6 @@ public class DefaultUserProfile implements UserProfile {
             throw new IllegalArgumentException("User cannot be null.");
         }
 
-        return friends.contains(userProfile);
+        return this.friends.contains(userProfile);
     }
 }
