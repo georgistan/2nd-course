@@ -50,6 +50,16 @@
         "xmemory": "cpp",
         "xstring": "cpp",
         "xtr1common": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "array": "cpp",
+        "chrono": "cpp",
+        "forward_list": "cpp",
+        "iomanip": "cpp",
+        "map": "cpp",
+        "ratio": "cpp",
+        "sstream": "cpp",
+        "string": "cpp",
+        "xstddef": "cpp",
+        "xtree": "cpp"
     }
 }
