@@ -1,4 +1,4 @@
-#include "Browser.hpp"
+#include "Browser.h"
 
 Browser::Browser() {
     firstTab = currentTab = new Tab();

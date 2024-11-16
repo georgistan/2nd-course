@@ -7,12 +7,27 @@ class BoolVector {
         uint8_t* data;
 
         void resize(size_t newCapacity);
-        bool get_bit(size_t index) const;
-        void set_bit(size_t index, bool value);
+        bool getBit(size_t index) const;
+        void setBit(size_t index, bool value);
+
+        void free();
+        void copyFrom(const BoolVector& other);
+        void moveFrom(BoolVector&& other);
 
     public:
         BoolVector();
+        BoolVector(const BoolVector& other);
+        BoolVector(BoolVector&& other);
         ~BoolVector();
+
+        BoolVector& operator=(const BoolVector& other);
+        BoolVector& operator=(BoolVector&& other);
+
+        size_t getSize() const;
+        size_t getCapacity() const;
+
+        void setSize(size_t newSize);
+        void setCapacity(size_t newCapacity);
 
         void push_back(bool value);
         void pop_back();
@@ -36,23 +51,21 @@ class BoolVector {
         Reference operator[](size_t index);
         bool operator[](size_t index) const;
 
-        size_t getSize() const;
-
         class Iterator {
             private:
                 BoolVector* vector;
                 size_t index;
 
             public:
-                Iterator(BoolVector* vec, size_t index);
+                Iterator(BoolVector* vector, size_t index);
 
                 Iterator& operator++();
                 Iterator operator++(int);
                 Iterator& operator--();
                 Iterator operator--(int);
-                Iterator operator*();
-                Iterator operator==(const Iterator& other) const;
-                Iterator operator!=(const Iterator& other) const;
+                Reference operator*();
+                bool operator==(const Iterator& other) const;
+                bool operator!=(const Iterator& other) const;
         };
 
         Iterator begin();
@@ -60,21 +73,23 @@ class BoolVector {
 
         class ConstIterator {
             private:
-                BoolVector* vector;
+                const BoolVector* vector;
                 size_t index;
 
             public:
+                ConstIterator(const BoolVector* vector, size_t index);
+
                 ConstIterator& operator++();
                 ConstIterator operator++(int);
                 ConstIterator& operator--();
                 ConstIterator operator--(int);
-                ConstIterator operator*();
-                ConstIterator operator==(const ConstIterator& other) const;
-                ConstIterator operator!=(const ConstIterator& other) const;
+                bool operator*() const;
+                bool operator==(const ConstIterator& other) const;
+                bool operator!=(const ConstIterator& other) const;
         };
 
-        ConstIterator begin() const;
-        ConstIterator end() const;
+        ConstIterator c_begin() const;
+        ConstIterator c_end() const;
 
         class ReverseIterator {
             private:
@@ -82,15 +97,17 @@ class BoolVector {
                 size_t index;
 
             public:
+                ReverseIterator(BoolVector* vector, size_t index);
+
                 ReverseIterator& operator++();
                 ReverseIterator operator++(int);
                 ReverseIterator& operator--();
                 ReverseIterator operator--(int);
-                ReverseIterator operator*();
-                ReverseIterator operator==(const ReverseIterator& other) const;
-                ReverseIterator operator!=(const ReverseIterator& other) const;
+                Reference operator*();
+                bool operator==(const ReverseIterator& other) const;
+                bool operator!=(const ReverseIterator& other) const;
         };
 
-        ConstIterator rbegin();
-        ConstIterator rend();
+        ReverseIterator rbegin();
+        ReverseIterator rend();
 };
