@@ -123,7 +123,7 @@ public class EventBusImpl implements EventBus {
             }
         }
 
-        return Collections.unmodifiableCollection(result);
+        return Set.copyOf(result);
     }
 
     @Override
