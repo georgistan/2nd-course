@@ -133,7 +133,7 @@ public class EventBusImpl implements EventBus {
         }
 
         if (!subscribersOfEventType.containsKey(eventType)) {
-            return Collections.unmodifiableCollection(new HashSet<>());
+            return Set.copyOf(new HashSet<>());
         }
 
         return Set.copyOf(subscribersOfEventType.get(eventType));
