@@ -29,7 +29,7 @@ public interface EventBus {
      * @throws MissingSubscriptionException if the subscriber is not subscribed to the event type
      */
     <T extends Event<?>> void unsubscribe(Class<T> eventType, Subscriber<? super T> subscriber)
-            throws MissingSubscriptionException;
+        throws MissingSubscriptionException;
 
     /**
      * Publishes the given event to all subscribers of the event type.
@@ -60,5 +60,15 @@ public interface EventBus {
      */
     Collection<? extends Event<?>> getEventLogs(Class<? extends Event<?>> eventType, Instant from,
                                                 Instant to);
+
+    /**
+     * Returns all subscribers for the given event type in an unmodifiable collection. If there are
+     * no subscribers for the event type, the method returns an empty unmodifiable collection.
+     *
+     * @param eventType the type of event to get subscribers for
+     * @return an unmodifiable collection of subscribers for the given event type
+     * @throws IllegalArgumentException if the event type is null
+     */
+    <T extends Event<?>> Collection<Subscriber<?>> getSubscribersForEvent(Class<T> eventType);
 
 }

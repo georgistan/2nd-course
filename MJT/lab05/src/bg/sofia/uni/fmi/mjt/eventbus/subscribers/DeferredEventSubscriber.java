@@ -1,10 +1,17 @@
 package bg.sofia.uni.fmi.mjt.eventbus.subscribers;
 
 import java.util.Iterator;
+import java.util.TreeSet;
 
 import bg.sofia.uni.fmi.mjt.eventbus.events.Event;
+import bg.sofia.uni.fmi.mjt.eventbus.events.EventByPriorityComparator;
 
 public class DeferredEventSubscriber<T extends Event<?>> implements Subscriber<T>, Iterable<T> {
+    TreeSet<T> events;
+
+    public DeferredEventSubscriber() {
+        events = new TreeSet<>(new EventByPriorityComparator());
+    }
 
     /**
      * Store an event for processing at a later time.
@@ -14,7 +21,11 @@ public class DeferredEventSubscriber<T extends Event<?>> implements Subscriber<T
      */
     @Override
     public void onEvent(T event) {
-        throw new UnsupportedOperationException("Still not implemented");
+        if (event == null) {
+            throw new IllegalArgumentException("Event cannot be null.");
+        }
+
+        events.add(event);
     }
 
     /**
@@ -26,7 +37,7 @@ public class DeferredEventSubscriber<T extends Event<?>> implements Subscriber<T
      */
     @Override
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException("Still not implemented");
+        return events.iterator();
     }
 
     /**
@@ -35,7 +46,6 @@ public class DeferredEventSubscriber<T extends Event<?>> implements Subscriber<T
      * @return true if there are unprocessed events, false otherwise
      */
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Still not implemented");
+        return events.isEmpty();
     }
-
 }
