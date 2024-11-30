@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.mjt.glovo.exception;
 
-public class NoAvailableDeliveryGuyException extends RuntimeException {
+public class NoAvailableDeliveryGuyException extends Exception {
     public NoAvailableDeliveryGuyException() {
     }
 

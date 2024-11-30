@@ -19,4 +19,40 @@ public class Delivery {
         this.price = price;
         this.estimatedTime = estimatedTime;
     }
+
+    @Override
+    public String toString() {
+        return "Delivery{" +
+            "client=" + client +
+            ", restaurant=" + restaurant +
+            ", deliveryGuy=" + deliveryGuy +
+            ", foodItem='" + foodItem + '\'' +
+            ", price=" + price +
+            ", estimatedTime=" + estimatedTime +
+            '}';
+    }
+
+    public Location getClient() {
+        return client;
+    }
+
+    public Location getRestaurant() {
+        return restaurant;
+    }
+
+    public Location getDeliveryGuy() {
+        return deliveryGuy;
+    }
+
+    public String getFoodItem() {
+        return foodItem;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getEstimatedTime() {
+        return estimatedTime;
+    }
 }
