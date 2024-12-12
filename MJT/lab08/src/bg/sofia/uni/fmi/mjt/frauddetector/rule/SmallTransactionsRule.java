@@ -17,11 +17,17 @@ public class SmallTransactionsRule implements Rule {
 
     @Override
     public boolean applicable(List<Transaction> transactions) {
-        return false;
+        if (transactions == null) {
+            throw new IllegalArgumentException("Transactions cannot be null");
+        }
+
+        return transactions.stream()
+            .filter(t -> t.transactionAmount() < amountThreshold)
+            .count() >= countThreshold;
     }
 
     @Override
     public double weight() {
-        return 0;
+        return weight;
     }
 }

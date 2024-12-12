@@ -15,11 +15,18 @@ public class LocationsRule implements Rule {
 
     @Override
     public boolean applicable(List<Transaction> transactions) {
-        return false;
+        if (transactions == null) {
+            throw new IllegalArgumentException("Transactions cannot be null");
+        }
+
+        return transactions.stream()
+            .map(Transaction::location)
+            .distinct()
+            .count() >= threshold;
     }
 
     @Override
     public double weight() {
-        return 0;
+        return weight;
     }
 }

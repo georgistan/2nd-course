@@ -15,11 +15,31 @@ public class ZScoreRule implements Rule {
 
     @Override
     public boolean applicable(List<Transaction> transactions) {
-        return false;
+        double mean = transactions.stream()
+            .map(Transaction::transactionAmount)
+            .reduce(
+                0.0,
+                Double::sum
+            ) / transactions.size();
+
+        double variance = transactions.stream()
+            .map(Transaction::transactionAmount)
+            .map(t -> (t - mean) * (t - mean))
+            .reduce(
+                0.0,
+                Double::sum
+            ) / transactions.size();
+
+        double standardDeviation = Math.sqrt(variance);
+
+        return transactions.stream()
+            .map(Transaction::transactionAmount)
+            .map(t -> (t - mean) / standardDeviation)
+            .anyMatch(t -> t >= zScoreThreshold);
     }
 
     @Override
     public double weight() {
-        return 0;
+        return weight;
     }
 }
