@@ -11,8 +11,6 @@ public class FrequencyRule implements Rule {
     private double weight;
 
     public FrequencyRule(int transactionCountThreshold, TemporalAmount timeWindow, double weight) {
-        validateInput(transactionCountThreshold, timeWindow, weight);
-
         this.transactionCountThreshold = transactionCountThreshold;
         this.timeWindow = timeWindow;
         this.weight = weight;
@@ -38,19 +36,5 @@ public class FrequencyRule implements Rule {
     @Override
     public double weight() {
         return weight;
-    }
-
-    private void validateInput(int transactionCountThreshold, TemporalAmount timeWindow, double weight) {
-        if (transactionCountThreshold < 1) {
-            throw new IllegalArgumentException("Transaction count threshold is invalid: " + transactionCountThreshold);
-        }
-
-        if (timeWindow == null) {
-            throw new IllegalArgumentException("Time window cannot be null");
-        }
-
-        if (weight < 0.0 || weight > 1.0) {
-            throw new IllegalArgumentException("Weight must be between 0 and 1 inclusive");
-        }
     }
 }

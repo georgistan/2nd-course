@@ -15,6 +15,10 @@ public class ZScoreRule implements Rule {
 
     @Override
     public boolean applicable(List<Transaction> transactions) {
+        if (transactions == null) {
+            throw new IllegalArgumentException("Transactions cannot be null");
+        }
+
         double mean = transactions.stream()
             .map(Transaction::transactionAmount)
             .reduce(
