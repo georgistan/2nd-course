@@ -7,7 +7,14 @@ public class GenresOverlapSimilarityCalculator implements SimilarityCalculator {
 
     @Override
     public double calculateSimilarity(Book first, Book second) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        if (first == null || second == null) {
+            throw new IllegalArgumentException("Cannot calculate similarity between null objects");
+        }
+
+        return (double) first.genres().stream()
+            .filter(genre -> second.genres().contains(genre))
+            .toList()
+            .size() / Integer.min(first.genres().size(), second.genres().size());
     }
 
 }

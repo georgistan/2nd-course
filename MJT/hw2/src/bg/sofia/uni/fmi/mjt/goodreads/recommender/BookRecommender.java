@@ -7,14 +7,24 @@ import java.util.Set;
 import java.util.SortedMap;
 
 public class BookRecommender implements BookRecommenderAPI {
+    private Set<Book> initialBooks;
+    private SimilarityCalculator similarityCalculator;
 
     public BookRecommender(Set<Book> initialBooks, SimilarityCalculator calculator) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        this.initialBooks = initialBooks;
+        this.similarityCalculator = calculator;
     }
 
     @Override
     public SortedMap<Book, Double> recommendBooks(Book origin, int maxN) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+        if (origin == null) {
+            throw new IllegalArgumentException("Origin book cannot be null");
+        }
 
+        if (maxN <= 0) {
+            throw new IllegalArgumentException("Maximum number of recommendations must be greater than zero");
+        }
+
+        return null;
+    }
 }
