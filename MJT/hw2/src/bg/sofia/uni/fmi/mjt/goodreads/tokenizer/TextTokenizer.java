@@ -6,9 +6,10 @@ import java.io.Reader;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TextTokenizer {
-
+    private static final String SPACE = " ";
     private final Set<String> stopwords;
 
     public TextTokenizer(Reader stopwordsReader) {
@@ -20,11 +21,17 @@ public class TextTokenizer {
     }
 
     public List<String> tokenize(String input) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        input = input
+            .replaceAll("\\p{Punct}", "")
+            .replaceAll("\\s+", SPACE)
+            .trim();
+
+        return Stream.of(input.split(SPACE))
+            .filter(word -> !stopwords.contains(word))
+            .toList();
     }
 
     public Set<String> stopwords() {
         return stopwords;
     }
-
 }

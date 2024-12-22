@@ -23,17 +23,17 @@ public class Main {
 
             System.out.println("all genres: " + bookFinder.allGenres());
 
-//            Set<String> stringSet = new HashSet<>();
-//            stringSet.add("Young Adult");
-//            stringSet.add("Audiobook");
-//            System.out.println(stringSet);
+            Set<String> stringSet = new HashSet<>();
+            stringSet.add("Young Adult");
+            stringSet.add("Audiobook");
+            System.out.println(stringSet);
 
             bookFinder.searchByAuthor("Stephen King").forEach(System.out::println);
 
-            Set<String> stringSet = new HashSet<>();
-            stringSet.add("military");
-            stringSet.add("plan");
-            System.out.println(stringSet);
+//            Set<String> stringSet = new HashSet<>();
+//            stringSet.add("military");
+//            stringSet.add("plan");
+//            System.out.println(stringSet);
 
             bookFinder.searchByKeywords(stringSet, MatchOption.MATCH_ALL).forEach(System.out::println);
         } catch (Exception e) {
