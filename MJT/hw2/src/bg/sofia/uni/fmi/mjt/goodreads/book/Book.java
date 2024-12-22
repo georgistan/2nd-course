@@ -32,9 +32,17 @@ public record Book(
             tokens[1],
             tokens[2],
             tokens[DESCRIPTION_INDEX],
-            Arrays.stream(tokens[GENRES_INDEX].substring(1, tokens[GENRES_INDEX].length() - 1).split(GENRE_ITEM_SEPARATOR)).toList(),
+
+            Arrays.stream(tokens[GENRES_INDEX]
+                .substring(1, tokens[GENRES_INDEX].length() - 1)
+                .replace("'", "")
+                .split(GENRE_ITEM_SEPARATOR)
+            )
+            .map(String::trim)
+            .toList(),
+
             Double.parseDouble(tokens[RATING_INDEX]),
-            Integer.parseInt(tokens[RATING_COUNT_INDEX]),
+            Integer.parseInt(tokens[RATING_COUNT_INDEX].replace(GENRE_ITEM_SEPARATOR, "")),
             tokens[URL_INDEX]
         );
     }
