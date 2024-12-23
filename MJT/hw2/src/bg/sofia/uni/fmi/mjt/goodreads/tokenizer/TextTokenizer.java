@@ -10,6 +10,9 @@ import java.util.stream.Stream;
 
 public class TextTokenizer {
     private static final String SPACE = " ";
+    private static final String PUNCTUATION_MARKS_REGEX = "\\p{Punct}";
+    private static final String WHITE_SPACES_REGEX = "\\s+";
+
     private final Set<String> stopwords;
 
     public TextTokenizer(Reader stopwordsReader) {
@@ -22,8 +25,8 @@ public class TextTokenizer {
 
     public List<String> tokenize(String input) {
         input = input
-            .replaceAll("\\p{Punct}", "")
-            .replaceAll("\\s+", SPACE)
+            .replaceAll(PUNCTUATION_MARKS_REGEX, "")
+            .replaceAll(WHITE_SPACES_REGEX, SPACE)
             .trim();
 
         return Stream.of(input.split(SPACE))

@@ -11,7 +11,7 @@ public class GenresOverlapSimilarityCalculator implements SimilarityCalculator {
             throw new IllegalArgumentException("Cannot calculate similarity between null objects");
         }
 
-        return (double) first.genres().stream()
+        return (double) first.genres().parallelStream()
             .filter(genre -> second.genres().contains(genre))
             .toList()
             .size() / Integer.min(first.genres().size(), second.genres().size());

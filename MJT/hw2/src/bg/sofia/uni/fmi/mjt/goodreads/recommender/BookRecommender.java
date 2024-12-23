@@ -5,6 +5,8 @@ import bg.sofia.uni.fmi.mjt.goodreads.recommender.similaritycalculator.Similarit
 
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class BookRecommender implements BookRecommenderAPI {
     private Set<Book> initialBooks;
@@ -26,5 +28,14 @@ public class BookRecommender implements BookRecommenderAPI {
         }
 
         return null;
+//        return initialBooks.stream()
+//            .collect(
+//                Collectors.toMap(
+//                    (book) -> book,
+//                    (value) -> similarityCalculator.calculateSimilarity(value, origin),
+//                    TreeMap::new
+//                )
+//            )
+//            .get();
     }
 }

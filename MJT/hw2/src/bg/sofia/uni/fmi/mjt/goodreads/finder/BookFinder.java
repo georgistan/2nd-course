@@ -23,14 +23,14 @@ public class BookFinder implements BookFinderAPI {
 
     @Override
     public Set<String> allGenres() {
-        return books.stream()
+        return books.parallelStream()
             .flatMap(book -> book.genres().stream())
             .collect(Collectors.toSet());
     }
 
     @Override
     public List<Book> searchByAuthor(String authorName) {
-        return books.stream()
+        return books.parallelStream()
             .filter(book -> book.author().equals(authorName))
             .toList();
     }
@@ -41,7 +41,7 @@ public class BookFinder implements BookFinderAPI {
             throw new IllegalArgumentException("Genres cannot be null");
         }
 
-        return books.stream()
+        return books.parallelStream()
             .filter(book -> matchesGenres(book, genres, option))
             .collect(Collectors.toList());
     }
@@ -49,10 +49,10 @@ public class BookFinder implements BookFinderAPI {
     private boolean matchesGenres(Book book, Set<String> genres, MatchOption option) {
         switch (option) {
             case MATCH_ALL -> {
-                return genres.stream().allMatch(genre -> book.genres().contains(genre));
+                return genres.parallelStream().allMatch(genre -> book.genres().contains(genre));
             }
             case MATCH_ANY -> {
-                return genres.stream().anyMatch(genre -> book.genres().contains(genre));
+                return genres.parallelStream().anyMatch(genre -> book.genres().contains(genre));
             }
         }
 
@@ -61,23 +61,23 @@ public class BookFinder implements BookFinderAPI {
 
     @Override
     public List<Book> searchByKeywords(Set<String> keywords, MatchOption option) {
-        return books.stream()
+        return books.parallelStream()
             .filter(book -> matchesKeywords(book, keywords, option))
             .collect(Collectors.toList());
     }
 
     private boolean matchesKeywords(Book book, Set<String> keywords, MatchOption option) {
         String titleConcatDescription = book.title() + " " + book.description();
-        Set<String> keywordsLowercase = keywords.stream()
+        Set<String> keywordsLowercase = keywords.parallelStream()
                                                 .map(String::toLowerCase)
                                                 .collect(Collectors.toSet());
 
         switch (option) {
             case MATCH_ALL -> {
-                return keywordsLowercase.stream().allMatch(titleConcatDescription::contains);
+                return keywordsLowercase.parallelStream().allMatch(titleConcatDescription::contains);
             }
             case MATCH_ANY -> {
-                return keywordsLowercase.stream().anyMatch(titleConcatDescription::equals);
+                return keywordsLowercase.parallelStream().anyMatch(titleConcatDescription::equals);
             }
         }
 
