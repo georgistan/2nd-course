@@ -58,7 +58,7 @@ public class TFIDFSimilarityCalculator implements SimilarityCalculator {
             .collect(
                 Collectors.toMap(
                     word -> word,
-                    word -> (double) (Collections.frequency(tokenizedDescription, word) / wordCount)
+                    word -> ((double) Collections.frequency(tokenizedDescription, word) / wordCount)
                 )
             );
     }

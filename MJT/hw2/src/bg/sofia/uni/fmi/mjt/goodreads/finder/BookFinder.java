@@ -54,9 +54,8 @@ public class BookFinder implements BookFinderAPI {
             case MATCH_ANY -> {
                 return genres.parallelStream().anyMatch(genre -> book.genres().contains(genre));
             }
+            default -> throw new IllegalArgumentException("Unsupported option: " + option);
         }
-
-        return false;
     }
 
     @Override
@@ -79,8 +78,7 @@ public class BookFinder implements BookFinderAPI {
             case MATCH_ANY -> {
                 return keywordsLowercase.parallelStream().anyMatch(titleConcatDescription::equals);
             }
+            default -> throw new IllegalArgumentException("Unsupported option: " + option);
         }
-
-        return false;
     }
 }
