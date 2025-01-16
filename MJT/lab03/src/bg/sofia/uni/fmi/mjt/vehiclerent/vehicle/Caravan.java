@@ -31,21 +31,21 @@ public final class Caravan extends MotorVehicle {
         hours = hours - days * HOURS_IN_A_DAY;
 
         double fuelCost = 0;
-        double seatsCost = numberOfSeats * PRICE_PER_SEAT;
+        double seatCost = numberOfSeats * PRICE_PER_SEAT;
         double bedsCost = numberOfBeds * PRICE_PER_BED;
 
         if (weeks > 0) {
-            fuelCost = (weeks * DAYS_IN_A_WEEK + days) * fuelType.getTax();
+            fuelCost = days * fuelType.getTax();
 
-            return (weeks * pricePerWeek) + (days * pricePerDay) + (hours * pricePerHour) + fuelCost + seatsCost + bedsCost + renter.ageGroup().getTax();
+            return (days * pricePerDay) + (hours * pricePerHour) + fuelCost + seatCost + bedsCost + renter.ageGroup().getTax();
         } else if(days > 0) {
             fuelCost = days * fuelType.getTax();
 
-            return (days * pricePerDay) + (hours * pricePerHour) + fuelCost + seatsCost + bedsCost + renter.ageGroup().getTax();
+            return (days * pricePerDay) + (hours * pricePerHour) + fuelCost + seatCost + bedsCost + renter.ageGroup().getTax();
         } else {
             fuelCost = fuelType.getTax();
 
-            return (hours * pricePerHour) + fuelCost + seatsCost + renter.ageGroup().getTax();
+            return (hours * pricePerHour) + fuelCost + seatCost + renter.ageGroup().getTax();
         }
     }
 }
