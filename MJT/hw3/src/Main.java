@@ -1,5 +1,7 @@
+import bg.sofia.uni.fmi.mjt.newsfeed.builder.HttpRequestBuilder;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        HttpRequestBuilder.buildRequest("Appple", "popularity");
     }
 }
