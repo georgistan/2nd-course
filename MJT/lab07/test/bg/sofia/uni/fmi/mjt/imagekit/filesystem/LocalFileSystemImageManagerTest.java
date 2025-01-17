@@ -10,12 +10,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -144,16 +141,4 @@ public class LocalFileSystemImageManagerTest {
 
         assertThrows(IOException.class, () -> imageManager.saveImage(image, imageFile));
     }
-
-//    @Test
-//    @Order(14)
-//    void testSaveImage() {
-//        BufferedImage image = mock(BufferedImage.class);
-//        File imageFile = new File("cooler-car.jpg");
-//
-//        when(imageFile.getParent()).thenReturn("C:\\Joro\\MJT\\lab07");
-//
-//        assertDoesNotThrow(() -> imageManager.saveImage(image, imageFile));
-//        assertTrue(imageFile.exists());
-//    }
 }
