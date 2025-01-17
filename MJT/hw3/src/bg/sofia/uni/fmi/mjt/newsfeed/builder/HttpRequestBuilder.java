@@ -1,40 +1,65 @@
 package bg.sofia.uni.fmi.mjt.newsfeed.builder;
 
+import bg.sofia.uni.fmi.mjt.newsfeed.exception.NoKeywordException;
+
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpRequest;
+import java.util.List;
 
 public class HttpRequestBuilder {
 
     private static final String API_KEY = "aad42aefc56249daa8f4b7db96cf6697";
-    private static final String SCHEME = "https://";
+    private static final String SCHEME = "https";
     private static final String HOST = "newsapi.org";
-    private static final String PATH = "/v2/top-headlines/";
+    private static final String PATH = "/v2/top-headlines";
 
-    public static HttpRequest buildRequest(String...args) {
-//        URI uri = new URI("https", "/v2/top-headlines/everything", artist + "/" + song, null);
-//        System.out.println(uri);
+    public static HttpRequest buildRequest(List<String> keywords, String category, String country) {
+        try {
+            String query = buildQuery(keywords, category, country);
 
-        StringBuilder uri = new StringBuilder(SCHEME + HOST + PATH + "?");
+            URI uri = new URI(SCHEME, HOST, PATH, query, null);
 
-        for (int i = 0; i < args.length; i++) {
-            appendArg(i, args[i], uri);
+            System.out.println(uri);
+
+            return HttpRequest.newBuilder()
+                .uri(URI.create(query))
+                .GET()
+                .build();
+        } catch (NoKeywordException | URISyntaxException exception) {
+            exception.printStackTrace();
         }
-
-        uri.append("apiKey=").append(API_KEY);
-
-        System.out.println(uri);
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(uri.toString())).build();
 
         return null;
     }
 
-    private static void appendArg(int i, String arg, StringBuilder uri) {
-        switch (i) {
-            case 0: uri.append("q="); break;
-            case 1: uri.append("from="); break;
-            case 2: uri.append("sortBy="); break;
+    private static String buildQuery(List<String> keywords, String category, String country)
+        throws NoKeywordException {
+        if (keywords == null || keywords.isEmpty()) {
+            throw new NoKeywordException("Cannot build query without keywords");
         }
 
-        uri.append(arg).append("&");
+        StringBuilder query = new StringBuilder();
+        query.append("q=");
+
+        for (int i = 0; i < keywords.size(); i++) {
+            query.append(keywords.get(i));
+
+            if (i != keywords.size() - 1) {
+                query.append(" ");
+            }
+        }
+
+        if (category != null) {
+            query.append("&category=").append(category);
+        }
+
+        if (country != null) {
+            query.append("&country=").append(country);
+        }
+
+        query.append("&apiKey=").append(API_KEY);
+
+        return query.toString();
     }
 }
