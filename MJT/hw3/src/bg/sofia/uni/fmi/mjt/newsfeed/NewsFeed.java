@@ -11,12 +11,12 @@ import java.util.concurrent.Executors;
 public class NewsFeed implements NewsFeedAPI {
 
     @Override
-    public void newsFeed(List<String> keywords, String category, String country) {
+    public void searchNews(List<String> keywords, String category, String country) {
 
-        // why cached threads?
-        try (ExecutorService executor = Executors.newCachedThreadPool()) {
-            HttpClient client = HttpClient.newBuilder().executor(executor).build();
-
+        // !!!!!!!!!!!!!!!!!!!!!! why cached threads? !!!!!!!!!!!!!!!!!!!!!!
+        try (ExecutorService executor = Executors.newCachedThreadPool();
+             HttpClient client = HttpClient.newBuilder().executor(executor).build()
+        ) {
             HttpRequest request = HttpRequestBuilder.buildRequest(keywords, category, country);
 
             // CompletableFuture ??
