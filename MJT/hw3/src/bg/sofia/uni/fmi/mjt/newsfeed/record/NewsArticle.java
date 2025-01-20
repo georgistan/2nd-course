@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.mjt.newsfeed.record;
 
-public record News(
+public record NewsArticle(
     NewsSource source,
     String author,
     String title,

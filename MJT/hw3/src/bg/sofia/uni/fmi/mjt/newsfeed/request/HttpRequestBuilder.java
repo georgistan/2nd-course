@@ -1,5 +1,6 @@
-package bg.sofia.uni.fmi.mjt.newsfeed.builder;
+package bg.sofia.uni.fmi.mjt.newsfeed.request;
 
+import bg.sofia.uni.fmi.mjt.newsfeed.builder.NewsArticleRequest;
 import bg.sofia.uni.fmi.mjt.newsfeed.exception.NoKeywordException;
 import resources.Config;
 
@@ -15,9 +16,9 @@ public class HttpRequestBuilder {
     private static final String HOST = "newsapi.org";
     private static final String PATH = "/v2/top-headlines";
 
-    public static HttpRequest buildRequest(List<String> keywords, String category, String country) {
+    public static HttpRequest buildRequest(NewsArticleRequest newsArticleRequest) {
         try {
-            String query = buildQuery(keywords, category, country);
+            String query = buildQuery(newsArticleRequest);
 
             URI uri = new URI(SCHEME, HOST, PATH, query, null);
 
@@ -34,8 +35,9 @@ public class HttpRequestBuilder {
         return null;
     }
 
-    private static String buildQuery(List<String> keywords, String category, String country)
+    private static String buildQuery(NewsArticleRequest newsArticleRequest)
         throws NoKeywordException, IOException {
+        List<String> keywords = newsArticleRequest.getQ();
         if (keywords == null || keywords.isEmpty()) {
             throw new NoKeywordException("Cannot build query without keywords");
         }
@@ -51,16 +53,17 @@ public class HttpRequestBuilder {
             }
         }
 
+        String category = newsArticleRequest.getCategory();
         if (category != null) {
             query.append("&category=").append(category);
         }
 
+        String country = newsArticleRequest.getCountry();
         if (country != null) {
             query.append("&country=").append(country);
         }
 
         query.append("&apiKey=").append(Config.getApiKey());
-
         return query.toString();
     }
 }

@@ -1,9 +1,12 @@
 package bg.sofia.uni.fmi.mjt.newsfeed;
 
-import java.util.List;
+import bg.sofia.uni.fmi.mjt.newsfeed.builder.NewsArticleRequest;
 
 public interface NewsFeedAPI {
 
-    void searchNews(List<String> keywords, String category, String country);
+    /*
+        message kato na 100yo
+    */
+    void searchNews(NewsArticleRequest newsArticleRequest);
 
 }

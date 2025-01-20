@@ -1,27 +1,42 @@
 package bg.sofia.uni.fmi.mjt.newsfeed;
 
-import bg.sofia.uni.fmi.mjt.newsfeed.builder.HttpRequestBuilder;
+import bg.sofia.uni.fmi.mjt.newsfeed.builder.NewsArticleRequest;
+import bg.sofia.uni.fmi.mjt.newsfeed.request.HttpRequestBuilder;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.util.List;
+import java.net.http.HttpResponse;
+import java.time.LocalDateTime;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class NewsFeed implements NewsFeedAPI {
 
     @Override
-    public void searchNews(List<String> keywords, String category, String country) {
+    public void searchNews(NewsArticleRequest newsArticleRequest) {
+        System.out.println(LocalDateTime.now());
 
         // !!!!!!!!!!!!!!!!!!!!!! why cached threads? !!!!!!!!!!!!!!!!!!!!!!
         try (ExecutorService executor = Executors.newCachedThreadPool();
              HttpClient client = HttpClient.newBuilder().executor(executor).build()
         ) {
-            HttpRequest request = HttpRequestBuilder.buildRequest(keywords, category, country);
+            HttpRequest request = HttpRequestBuilder.buildRequest(newsArticleRequest);
 
-            // CompletableFuture ??
+            CompletableFuture<HttpResponse<String>> future = client
+                .sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(x -> x);
 
+            future.thenAcceptAsync( x ->
+                System.out.println(x.body())
+            );
+
+            future.join();
             // return List<NewsPage> ???
+
+            System.out.println(future.isDone());
         }
+
+        System.out.println(LocalDateTime.now());
     }
 }
