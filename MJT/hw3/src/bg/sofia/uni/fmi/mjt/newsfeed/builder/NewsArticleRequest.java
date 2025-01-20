@@ -4,34 +4,47 @@ import java.util.List;
 
 public class NewsArticleRequest {
 
-    private String category;
-    private String sources;
     private List<String> q;
+    private String category;
+    private String country;
+    private transient String sources;
     private String pageSize;
     private String page;
-    private String country;
-    private String language;
+    private transient String language;
 
     private NewsArticleRequest(Builder builder) {
-        this.category = builder.category;
-        this.sources = builder.sources;
         this.q = builder.q;
+        this.category = builder.category;
+        this.country = builder.country;
+        this.sources = builder.sources;
         this.pageSize = builder.pageSize;
         this.page = builder.page;
-        this.country = builder.country;
         this.language = builder.language;
+    }
+
+    @Override
+    public String toString() {
+        return "NewsArticleRequest [q=" + q +
+            ",\ncategory=" + category +
+            ",\ncountry=" + country +
+            ",\npage=" + page +
+            ",\npageSize=" + pageSize;
+    }
+
+    public List<String> getQ() {
+        return q;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public String getSources() {
-        return sources;
+    public String getCountry() {
+        return country;
     }
 
-    public List<String> getQ() {
-        return q;
+    public String getSources() {
+        return sources;
     }
 
     public String getPageSize() {
@@ -40,10 +53,6 @@ public class NewsArticleRequest {
 
     public String getPage() {
         return page;
-    }
-
-    public String getCountry() {
-        return country;
     }
 
     public String getLanguage() {

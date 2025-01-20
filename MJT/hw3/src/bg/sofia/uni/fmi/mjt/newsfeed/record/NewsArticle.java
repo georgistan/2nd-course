@@ -9,4 +9,16 @@ public record NewsArticle(
     String urlToImage,
     String publishedAt,
     String content
-) { }
+) {
+    @Override
+    public String toString() {
+        return source + "\n" +
+            "author = " + author + "\n" +
+            "title = " + title + "\n" +
+            "description = " + description + "\n" +
+            "url = " + url + "\n" +
+            "urlToImage = " + urlToImage + "\n" +
+            "publishedAt = " + publishedAt + "\n" +
+            "content = " + content;
+    }
+}

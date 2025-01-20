@@ -10,7 +10,5 @@ public class NewsMapper {
     public void mapToNews() {
         Type newsType = new TypeToken<List<NewsArticle>>() {
         }.getType();
-
-
     }
 }
