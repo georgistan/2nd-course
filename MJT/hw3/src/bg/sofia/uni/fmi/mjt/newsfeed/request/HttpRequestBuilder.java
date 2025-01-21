@@ -1,7 +1,7 @@
 package bg.sofia.uni.fmi.mjt.newsfeed.request;
 
 import bg.sofia.uni.fmi.mjt.newsfeed.builder.NewsArticleRequest;
-import bg.sofia.uni.fmi.mjt.newsfeed.exception.NoKeywordException;
+import bg.sofia.uni.fmi.mjt.newsfeed.exception.InvalidApiKeyException;
 import bg.sofia.uni.fmi.mjt.newsfeed.resources.Config;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class HttpRequestBuilder {
     private static final String HOST = "newsapi.org";
     private static final String PATH = "/v2/top-headlines";
 
-    private static final int TOTAL_RESPONSES_PER_QUERY = 100;
+    private static final int MAX_RESPONSE_SIZE = 100;
 
     public static HttpRequest buildRequest(NewsArticleRequest newsArticleRequest) {
         try {
@@ -24,13 +24,11 @@ public class HttpRequestBuilder {
 
             URI uri = new URI(SCHEME, HOST, PATH, query, null);
 
-            System.out.println(uri);
-
             return HttpRequest.newBuilder()
                 .uri(uri)
                 .GET()
                 .build();
-        } catch (NoKeywordException | URISyntaxException | IOException exception) {
+        } catch (IOException | URISyntaxException exception) {
             exception.printStackTrace();
         }
 
@@ -38,7 +36,11 @@ public class HttpRequestBuilder {
     }
 
     private static String buildQuery(NewsArticleRequest newsArticleRequest)
-        throws NoKeywordException, IOException {
+        throws IOException {
+        if (newsArticleRequest == null) {
+            throw new NullPointerException("newsArticleRequest parameter is null");
+        }
+
         StringBuilder query = new StringBuilder();
 
         putKeywords(query, newsArticleRequest.getQ());
@@ -47,18 +49,12 @@ public class HttpRequestBuilder {
 
         handlePagination(query, newsArticleRequest.getPage(), newsArticleRequest.getPageSize());
 
-        query.append("&apiKey=").append(Config.getApiKey());
-
-        System.out.println(query);
+        putApiKey(query);
 
         return query.toString();
     }
 
-    private static void putKeywords(StringBuilder query, List<String> keywords) throws NoKeywordException {
-        if (keywords == null || keywords.isEmpty()) {
-            throw new NoKeywordException("Cannot build query without keywords");
-        }
-
+    private static void putKeywords(StringBuilder query, List<String> keywords) {
         query.append("q=");
 
         for (int i = 0; i < keywords.size(); i++) {
@@ -81,12 +77,37 @@ public class HttpRequestBuilder {
     }
 
     private static void handlePagination(StringBuilder query, String page, String pageSize) {
+        if (page == null && pageSize == null) {
+            return;
+        }
+
+        if (page != null &&
+            pageSize != null &&
+            Integer.parseInt(page) * Integer.parseInt(pageSize) > MAX_RESPONSE_SIZE
+        ) {
+            throw new IllegalArgumentException("Invalid page size, cannot be reached");
+        }
+
         if (page != null) {
             query.append("&page=").append(page);
         }
 
         if (pageSize != null) {
             query.append("&pageSize=").append(pageSize);
+        }
+    }
+
+    private static void putApiKey(StringBuilder query) {
+        try {
+            String apiKey = Config.getApiKey();
+
+            if (apiKey.isEmpty()) {
+                throw new InvalidApiKeyException("API key is empty");
+            }
+
+            query.append("&apiKey=").append(apiKey);
+        } catch (IOException | NullPointerException exception) {
+            exception.printStackTrace();
         }
     }
 }
