@@ -2,7 +2,7 @@ package bg.sofia.uni.fmi.mjt.newsfeed.request;
 
 import bg.sofia.uni.fmi.mjt.newsfeed.builder.NewsArticleRequest;
 import bg.sofia.uni.fmi.mjt.newsfeed.exception.NoKeywordException;
-import resources.Config;
+import bg.sofia.uni.fmi.mjt.newsfeed.resources.Config;
 
 import java.io.IOException;
 import java.net.URI;

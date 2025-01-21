@@ -1,4 +1,4 @@
-package resources;
+package bg.sofia.uni.fmi.mjt.newsfeed.resources;
 
 import java.io.IOException;
 import java.io.InputStream;

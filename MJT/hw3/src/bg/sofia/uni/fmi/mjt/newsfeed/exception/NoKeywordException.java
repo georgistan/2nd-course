@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.mjt.newsfeed.exception;
 
-public class NoKeywordException extends Exception {
+public class NoKeywordException extends RuntimeException {
     public NoKeywordException() {
     }
 
